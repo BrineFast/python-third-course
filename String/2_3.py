@@ -15,4 +15,3 @@ for word in words:
     if len(word) < min_len or min_len == -1:
         min_len = len(word)
 print(lengths.get(min_len))
-
