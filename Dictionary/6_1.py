@@ -15,15 +15,26 @@
 3
 июн
 дек
-дек
+янв
 
 Выходные данные
 Денис 15 Петя 15
 Вася 10 Ваня 20
 """
-
 n_classmates = int(input("Введите количество одноклассиков: "))
 classmates = [input(f"{i + 1} одноклассник: ") for i in range(n_classmates)]
 
-# n_months = int(input("Введите количество месяцев: "))
-# months = [input(f"{i + 1} месяц: ") for i in range(n_months)]
+n_months = int(input("Введите количество месяцев: "))
+months = [input(f"{i + 1} месяц: ") for i in range(n_months)]
+
+result = {month: [] for month in months}
+for classmate in classmates:
+    classmate = classmate.split()
+    if result.keys().__contains__(classmate[2]):
+        result[classmate[2]].append([classmate[0], classmate[1]])
+for row in result:
+    result[row].sort(key=lambda x: (int(x[1]), x[0]))
+    s = ''
+    for elem in result[row]:
+        s += ' '.join(elem) + ' '
+    print(s)
