@@ -8,10 +8,10 @@
 """
 
 k = input().split()
-dvuznach, ne_dvuznach = list(filter(lambda x: len(x) == 2, k)), list(filter(lambda x: len(x) != 2, k)), set(), set()
+dvuznach, ne_dvuznach = list(filter(lambda x: len(x) == 2, k)), list(filter(lambda x: len(x) != 2, k))
 dvuznach_set, ne_dvuznach_set = set(), set()
 for i in dvuznach:
     dvuznach_set.update(list(map(lambda x: int(x), list(i.replace('-', '')))))
 for i in ne_dvuznach:
     ne_dvuznach_set.update(list(map(lambda x: int(x), list(i.replace('-', '')))))
-print(sorted(dvuznach_set.difference(ne_dvuznach_set)))
+print(*sorted(dvuznach_set.difference(ne_dvuznach_set)))
