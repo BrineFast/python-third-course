@@ -1,0 +1,27 @@
+add_item('Блокнот', 100)
+print_receipt()
+
+add_item('Ручка', 70)
+print_receipt()
+print_receipt()
+
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Чай', 5)
+print_receipt()
+
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+#
+
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+add_item('Булочка', 15)
+print_receipt()

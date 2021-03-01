@@ -11,7 +11,7 @@
 import string
 
 try:
-    with open('utils/file.txt', encoding='utf-8') as f:
+    with open('utils/file_8_1.txt', encoding='utf-8') as f:
         text = f.read()
         rows = text.split("\n")
     f.close()

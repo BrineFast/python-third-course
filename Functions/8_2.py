@@ -8,7 +8,6 @@ add_item(itemName, itemCost), и печать чека - функция print_re
 число товаров, пока кассир не «пробьет» последний товар, нельзя печатать чек по мере ввода товаров. Приходится сначала
 добавить все необходимые товары и только затем печатать весь чек целиком. В конце чека печатается черта (состоящая из
 пяти знаков минус), по которой он отрывается от ленты.
-
 Форматирование сделайте по шаблону в примере.
 В случае, когда чек пуст, print_receipt не должна печатать чек. Не забудьте, что после того как чек напечатан, набор
  выбранных товаров должен обнулиться, чтобы можно было вводить товары для нового чека.
@@ -20,11 +19,28 @@ def add_item(item_name, item_cost):
     cart.append((item_name, item_cost))
 
 def print_receipt():
-    try:
-        cart[0]
-    except Exception:
-        print()
-        print()
-        print("Чек пуст")
-        print()
-        print()
+    global cart
+    global check_num
+    output = f"Чек {check_num}. Всего предметов: {len(cart)}\n"
+    sum = 0
+    for item in cart:
+        output += f"{item[0]} - {item[1]}\n"
+        sum += item[1]
+    output += f"Итого: {sum}\n-----"
+    cart = []
+    check_num += 1
+    print(output)
+
+try:
+    with open('utils/file_8_2.txt', encoding='utf-8') as f:
+        text = f.read()
+        rows = text.split("\n")
+    f.close()
+except Exception:
+    raise Exception("Файл не найден")
+
+for row in rows:
+    if row == "#":
+        break
+    if not (row [:13] == "print_receipt" and len(cart) == 0):
+        exec(row)
