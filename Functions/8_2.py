@@ -13,6 +13,9 @@ add_item(itemName, itemCost), и печать чека - функция print_re
  выбранных товаров должен обнулиться, чтобы можно было вводить товары для нового чека.
 """
 
+with open('utils/file_8_2_answer.txt', 'w') as f:
+    f.write('')
+
 cart = []
 check_num = 1
 def add_item(item_name, item_cost):
@@ -29,7 +32,8 @@ def print_receipt():
     output += f"Итого: {sum}\n-----"
     cart = []
     check_num += 1
-    print(output)
+    with open('utils/file_8_2_answer.txt', 'a') as f:
+        f.write(output)
 
 try:
     with open('utils/file_8_2.txt', encoding='utf-8') as f:
@@ -41,6 +45,6 @@ except Exception:
 
 for row in rows:
     if row == "#":
-        break
-    if not (row [:13] == "print_receipt" and len(cart) == 0):
+        cart = []
+    elif not (row[:13] == "print_receipt" and len(cart) == 0):
         exec(row)
