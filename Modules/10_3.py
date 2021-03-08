@@ -14,10 +14,17 @@
 """
 
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 date = datetime.strptime(input("День рождения: "), "%d.%m.%Y")
 week_days = {1: "понедельник", 2: "вторник", 3: "среда", 4: "четверг", 5: "пятница", 6: "суббота", 7: "воскресенье"}
 today = datetime.today()
-years_delta = (date.date() - today.date()).microseconds
+next_birthday_year = 0
+if today.month > date.month or (today.month == date.month and today.day >= date.day):
+    next_birthday_year = today.year + 1
+else:
+    next_birthday_year = today.year
+years_delta = relativedelta(today, date).years
+next_birthday = datetime.strptime(f"{date.day}.{date.month}.{next_birthday_year}", '%d.%m.%Y')
 print(f"Возраст {years_delta} лет")
-print(f"{datetime.strftime(date, '%d.%m.%Y')} - {week_days.get(date.weekday())}")
+print(f"{next_birthday.date()} - {week_days.get(next_birthday.weekday())}")
