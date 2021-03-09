@@ -21,4 +21,4 @@ if int(days_delta) > -1:
     print(f"Дата на {days_delta} дня(ей) позже")
 else:
     print(f"Дата на {days_delta * -1} дня(ей) раньше")
-print(f"{datetime.strftime(date, '%d.%m.%Y')} - {week_days.get(date.weekday())}")
+print(f"{datetime.strftime(date, '%d.%m.%Y')} - {week_days.get(date.isoweekday())}")

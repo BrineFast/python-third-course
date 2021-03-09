@@ -27,4 +27,4 @@ else:
 years_delta = relativedelta(today, date).years
 next_birthday = datetime.strptime(f"{date.day}.{date.month}.{next_birthday_year}", '%d.%m.%Y')
 print(f"Возраст {years_delta} лет")
-print(f"{next_birthday.date()} - {week_days.get(next_birthday.weekday())}")
+print(f"{next_birthday.date()} - {week_days.get(next_birthday.isoweekday())}")

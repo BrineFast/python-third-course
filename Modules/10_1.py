@@ -19,5 +19,5 @@ days = int(input("Количество дней: "))
 week_days = {1: "понедельник", 2: "вторник", 3: "среда", 4: "четверг", 5: "пятница", 6: "суббота", 7: "воскресенье"}
 previous_date = date - timedelta(days)
 next_date = date + timedelta(days)
-print(f"{datetime.strftime(previous_date, '%d.%m.%Y')} - {week_days.get(previous_date.weekday())}")
-print(f"{datetime.strftime(next_date, '%d.%m.%Y')} - {week_days.get(next_date.weekday())}")
+print(f"{datetime.strftime(previous_date, '%d.%m.%Y')} - {week_days.get(previous_date.isoweekday())}")
+print(f"{datetime.strftime(next_date, '%d.%m.%Y')} - {week_days.get(next_date.isoweekday())}")
