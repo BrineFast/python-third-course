@@ -16,19 +16,20 @@ except ... для того, чтобы "отлавливать" ошибки.
 
 class Fraction:
 
-    def __init__(self, numerator, denominator):
+    def __init__(self, whole, numerator, denominator):
         if denominator == 0:
             raise Exception("Знаменатель не может быть равен 0")
+        self.whole = whole
         self.numerator = numerator
         self.denominator = denominator
 
     def __eq__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator == other:
+            if (self.numerator * self.whole) / self.denominator == other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator == other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator == (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -36,11 +37,11 @@ class Fraction:
 
     def __lt__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator < other:
+            if (self.numerator * self.whole) / self.denominator < other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator < other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator < (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -48,11 +49,11 @@ class Fraction:
 
     def __gt__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator > other:
+            if (self.numerator * self.whole) / self.denominator > other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator > other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator > (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -60,11 +61,11 @@ class Fraction:
 
     def __le__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator <= other:
+            if (self.numerator * self.whole) / self.denominator <= other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator <= other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator <= (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -72,11 +73,11 @@ class Fraction:
 
     def __ge__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator >= other:
+            if (self.numerator * self.whole) / self.denominator >= other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator >= other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator >= (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -84,11 +85,11 @@ class Fraction:
 
     def __ne__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            if self.numerator / self.denominator != other:
+            if (self.numerator * self.whole) / self.denominator != other:
                 return True
             return False
         try:
-            if self.numerator / self.denominator != other.numerator / other.denominator:
+            if (self.numerator * self.whole) / self.denominator != (other.numerator * other.whole) / other.denominator:
                 return True
             return False
         except Exception:
@@ -96,28 +97,30 @@ class Fraction:
 
     def __add__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            return Fraction(self.numerator + other, self.denominator)
-        return Fraction(self.numerator * other.denominator + other.numerator * self.numerator,
-                        self.numerator * other.denominator)
+            return Fraction(self.whole + other, self.numerator, self.denominator)
+        return Fraction(self.whole + other.whole, self.numerator * other.denominator + other.numerator * self.denominator,
+                        self.denominator * other.denominator)
 
     def __sub__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
-            return Fraction(self.numerator - other, self.denominator)
-        return Fraction(self.numerator * other.denominator - other.numerator * self.numerator,
-                        self.numerator * other.denominator)
+        if (isinstance(other, int) or isinstance(other, float)) and self.whole >= other:
+            return Fraction(self.whole - other, self.numerator, self.denominator)
+        elif isinstance(other, int) or isinstance(other, float):
+            return Fraction(self.whole - other, self.numerator - (other * self.denominator), self.denominator)
+        return Fraction(self.whole - other.whole, self.numerator * other.denominator - other.numerator * self.denominator,
+                        self.denominator * other.denominator)
 
     def __mul__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            return Fraction(self.numerator * other, self.denominator)
-        return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
+            return Fraction(self.whole, self.numerator * other, self.denominator)
+        return Fraction(self.whole * other.whole, self.numerator * other.numerator, self.denominator * other.denominator)
 
     def __truediv__(self, other):
         if isinstance(other, int) or isinstance(other, float):
-            return Fraction(self.numerator, self.denominator * other)
-        return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
+            return Fraction(self.whole, self.numerator, self.denominator * other)
+        return Fraction(self.whole / other.whole, self.numerator * other.denominator, self.denominator * other.numerator)
 
     def __pow__(self, power, modulo=None):
-        return Fraction(self.numerator ** power, self.denominator ** power)
+        return Fraction(self.whole, self.numerator ** power, self.denominator ** power)
 
     def __trunc__(self):
         if self.numerator < 0:
@@ -126,8 +129,8 @@ class Fraction:
 
     def __round__(self, n=None):
         if n > 0:
-            return Fraction(round(self.numerator / self.denominator * 10 ** n), 10 ** n)
-        return Fraction(round(self.numerator / self.denominator / 10 ** n) * 10 ** n)
+            return Fraction(self.whole, round(self.numerator / self.denominator * 10 ** n), 10 ** n)
+        return Fraction(self.whole, round(self.numerator / self.denominator / 10 ** n) * 10 ** n)
 
     def __ceil__(self):
         return -(-self.numerator // self.denominator)
@@ -136,30 +139,32 @@ class Fraction:
         return self.numerator // self.denominator
 
     def to_decimal(self):
-        return self.numerator / self.denominator
+        return self.numerator / self.denominator + self.whole
 
     def __str__(self):
-        return f"({self.numerator} / {self.denominator})"
+        return f"({self.whole}({self.numerator} / {self.denominator}))"
 
     def to_correct(self):
-        whole_part = self.numerator // self.denominator
-        return f"{whole_part}*({self.numerator - self.denominator}/{self.denominator})"
+        whole_part = self.numerator // self.denominator + self.whole
+        return Fraction(whole_part, self.numerator - self.denominator, self.denominator)
+
 
 if __name__ == "__main__":
-    first_fraction = Fraction(1, 2)
-    second_fraction = Fraction(3, 2)
-    third_fraction = Fraction(6, 4)
-    fourth_fraction = Fraction(7, 4)
-    fifth_fraction = Fraction(13, 4)
+    first_fraction = Fraction(1, 1, 2)
+    second_fraction = Fraction(2, 3, 2)
+    third_fraction = Fraction(3, 6, 4)
+    fourth_fraction = Fraction(4, 7, 4)
+    fifth_fraction = Fraction(0, 13, 4)
 
     print(f"{first_fraction} > {second_fraction}: {first_fraction > second_fraction}")
     print(f"{first_fraction} < {second_fraction}: {first_fraction < second_fraction}")
     print(f"{first_fraction} <= {second_fraction}: {first_fraction <= second_fraction}")
     print(f"{first_fraction} >= {second_fraction}: {first_fraction >= second_fraction}")
     print(f"{third_fraction} == {second_fraction}: {third_fraction == second_fraction}")
+    print(f"{third_fraction} == {third_fraction}: {third_fraction == third_fraction}")
     print(f"{third_fraction} >= {second_fraction}: {third_fraction >= second_fraction}")
     print(f"{third_fraction} <= {second_fraction}: {third_fraction <= second_fraction}")
-    print(f"{third_fraction} != {second_fraction}: {third_fraction != second_fraction}")
+    print(f"{third_fraction} != {third_fraction}: {third_fraction != third_fraction}")
     print(f"{first_fraction} != {second_fraction}: {first_fraction != second_fraction}")
     print(f"{first_fraction} > 0: {first_fraction > 0}")
     print(f"{first_fraction} > 2: {first_fraction > 2}")
