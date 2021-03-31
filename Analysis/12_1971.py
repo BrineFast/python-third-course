@@ -8,6 +8,8 @@ import numpy as np
 """
 print("Задание 1")
 df = np.loadtxt(fname='wind-data-1971.csv', comments='%', delimiter=',')
+print(df)
+print()
 
 """
 Задание 2
@@ -132,7 +134,7 @@ print()
 нулей в дробной части.  Каждое число с плавающей точкой сохраните с точностью ровно в 4 знака после точки.
 """
 print("Задание 9:")
-np.savetxt("12_1971_result.csv", [df_with_max_speed_column[0]], fmt=', '.join(['%.d']*3 + ['%1.4f']*13))
+np.savetxt("12_1971_result.csv", df_with_max_speed_column, fmt=', '.join(['%.d']*3 + ['%1.4f']*13))
 print("Сохранено в файл: 12_1971_result.csv")
 print()
 print()
@@ -143,6 +145,7 @@ print()
 """
 print("Задание 10:")
 for i in range(1, 13):
-    january = df[df[:, 1] == i]
-    average_speed = np.average(np.average(january[:, 3:15], axis=0))
+    month = df[df[:, 1] == i]
+    average_speed = np.average(np.average(month[:, 3:15], axis=0))
     print(f"Средняя скорость в {i} месяце: {average_speed}")
+print()
